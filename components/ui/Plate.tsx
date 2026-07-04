@@ -54,21 +54,25 @@ export default function Plate({
 }: Props) {
   const t = TONES[tone];
   const id = useMemo(() => `p${seed}-${kind}`, [seed, kind]);
-  const rnd = useMemo(() => mulberry(seed * 97 + 13), [seed]);
 
   const contours = useMemo(() => {
+    const rnd = mulberry(seed * 97 + 13);
     const lines: string[] = [];
     for (let i = 0; i < 9; i++) {
       const r = 40 + i * 34 + rnd() * 8;
       lines.push(`M ${300 - r} 300 a ${r} ${r} 0 1 0 ${r * 2} 0 a ${r} ${r} 0 1 0 ${-r * 2} 0`);
     }
     return lines;
-  }, [rnd]);
+  }, [seed]);
 
-  const strata = useMemo(
-    () => Array.from({ length: 7 }, (_, i) => 60 + i * 68 + Math.round(rnd() * 22)),
-    [rnd]
-  );
+  const strataLines = useMemo(() => {
+    const rnd = mulberry(seed * 97 + 13 + 50);
+    return Array.from({ length: 7 }, (_, i) => {
+      const y1 = 60 + i * 68 + Math.round(rnd() * 22);
+      const y2Offset = -40 + rnd() * 80;
+      return { y1, y2: y1 + y2Offset };
+    });
+  }, [seed]);
 
   return (
     <div
@@ -130,8 +134,8 @@ export default function Plate({
 
         {kind === "strata" && (
           <g stroke={t.line} strokeWidth="1" strokeOpacity="0.24" fill="none">
-            {strata.map((y, i) => (
-              <line key={i} x1="0" y1={y} x2="600" y2={y - 40 + rnd() * 80} strokeOpacity={0.1 + (i % 3) * 0.08} />
+            {strataLines.map((line, i) => (
+              <line key={i} x1="0" y1={line.y1} x2="600" y2={line.y2} strokeOpacity={0.1 + (i % 3) * 0.08} />
             ))}
           </g>
         )}

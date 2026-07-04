@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { LogoMark } from "@/components/ui/Logo";
 import { NAV_LINKS } from "@/lib/data";
 import { cursorProps } from "@/lib/cursor";
@@ -12,6 +13,11 @@ const SOCIAL = [
 ];
 
 export default function Footer() {
+  const [year, setYear] = useState(2026);
+  useEffect(() => {
+    setYear(new Date().getFullYear());
+  }, []);
+
   return (
     <footer className="relative overflow-hidden border-t border-[color-mix(in_oklab,var(--paper)_10%,transparent)] pt-20 pb-10">
       <div className="shell">
@@ -87,10 +93,12 @@ export default function Footer() {
         </div>
 
         <div className="mt-10 flex flex-col gap-4 border-t border-[color-mix(in_oklab,var(--paper)_10%,transparent)] pt-8 text-[0.72rem] text-[var(--color-stone-500)] md:flex-row md:items-center md:justify-between">
-          <span className="font-mono tracking-[0.08em]">© {new Date().getFullYear()} The Extras &amp; Co. All rights reserved.</span>
+          <span className="font-mono tracking-[0.08em]">© {year} The Extras &amp; Co. All rights reserved.</span>
           <span className="font-mono tracking-[0.08em]">Designed &amp; engineered in-house.</span>
         </div>
       </div>
     </footer>
   );
 }
+
+
