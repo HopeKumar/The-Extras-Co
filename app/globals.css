@@ -1,0 +1,251 @@
+@import "tailwindcss";
+
+/* ============================================================
+   THE EXTRAS & CO. — DESIGN SYSTEM
+   Editorial · Architectural · Museum-quality · Cinematic
+   ============================================================ */
+
+@theme {
+  /* Monochrome ink scale (warm) */
+  --color-ink-950: #0a0806;
+  --color-ink-900: #0e0c09;
+  --color-ink-800: #16130f;
+  --color-ink-700: #211d18;
+  --color-ink-600: #322c25;
+  --color-ink-500: #4a4137;
+  --color-ink-400: #6b6055;
+  --color-ink-300: #928a7d;
+  --color-stone-500: #8f8578;
+  --color-stone-400: #a89e8f;
+  --color-stone-300: #c4bbac;
+  --color-paper-200: #ded7ca;
+  --color-paper-100: #ece6da;
+  --color-paper-50: #f4f0e8;
+
+  /* Single accent — champagne copper */
+  --color-accent: #c08b5c;
+  --color-accent-bright: #d8a978;
+  --color-accent-deep: #9a6b40;
+
+  --font-display: var(--font-fraunces), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-inter), system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-mono), "SF Mono", ui-monospace, monospace;
+}
+
+:root {
+  --paper: #f4f0e8;
+  --ink: #0e0c09;
+  --accent: #c08b5c;
+  --accent-bright: #d8a978;
+  --accent-deep: #9a6b40;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-expo: cubic-bezier(0.87, 0, 0.13, 1);
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --gutter: clamp(1.25rem, 5vw, 6rem);
+  --maxw: 1680px;
+  --nav-h: 88px;
+
+  color-scheme: dark;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  scroll-behavior: auto; /* Lenis handles smoothing */
+}
+
+body {
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.55;
+  letter-spacing: -0.01em;
+  overflow-x: clip;
+  min-height: 100vh;
+  font-feature-settings: "kern", "liga", "calt";
+}
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+::selection {
+  background: var(--accent);
+  color: #0a0806;
+}
+
+/* Hide default cursor when custom cursor is active (desktop pointer only) */
+@media (hover: hover) and (pointer: fine) {
+  html.has-cursor,
+  html.has-cursor * {
+    cursor: none !important;
+  }
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+img,
+svg,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+/* ---------- Layout helpers ---------- */
+.shell {
+  width: 100%;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+.section {
+  position: relative;
+  padding-block: clamp(6rem, 12vw, 12rem);
+}
+
+/* ---------- Type utilities ---------- */
+.font-display {
+  font-family: var(--font-display);
+}
+.font-mono {
+  font-family: var(--font-mono);
+}
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--color-stone-400);
+  font-weight: 500;
+}
+.display-xxl {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(3.2rem, 11vw, 12rem);
+  line-height: 0.92;
+  letter-spacing: -0.03em;
+}
+.display-xl {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(2.6rem, 7vw, 6.5rem);
+  line-height: 0.98;
+  letter-spacing: -0.028em;
+}
+.display-l {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(2rem, 4.5vw, 4rem);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+}
+.lead {
+  font-size: clamp(1.15rem, 1.9vw, 1.6rem);
+  line-height: 1.4;
+  letter-spacing: -0.015em;
+  color: var(--color-paper-100);
+  font-weight: 300;
+}
+.italic-serif {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 300;
+}
+
+/* ---------- Grain overlay ---------- */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Fine architectural hairlines */
+.hairline {
+  border-color: color-mix(in oklab, var(--color-paper-50) 12%, transparent);
+}
+
+/* ---------- Reveal masks (used with JS) ---------- */
+.reveal-line {
+  display: block;
+  overflow: hidden;
+}
+.reveal-line > span {
+  display: block;
+  will-change: transform;
+}
+
+/* Focus visibility for accessibility */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Skip link */
+.skip-link {
+  position: fixed;
+  left: 1rem;
+  top: 1rem;
+  z-index: 10000;
+  transform: translateY(-160%);
+  background: var(--paper);
+  color: var(--ink);
+  padding: 0.7rem 1.1rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: transform 0.4s var(--ease-out-expo);
+}
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Utility: fill parent */
+.absfill {
+  position: absolute;
+  inset: 0;
+}
